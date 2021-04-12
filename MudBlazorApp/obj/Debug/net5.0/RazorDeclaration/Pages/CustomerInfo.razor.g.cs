@@ -13,90 +13,90 @@ namespace MudBlazorApp.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 1 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 2 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 3 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 4 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 5 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 6 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 7 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 8 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 9 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using MudBlazorApp;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 10 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using MudBlazorApp.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\_Imports.razor"
+#line 11 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\_Imports.razor"
 using MudBlazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\Pages\CustomerInfo.razor"
+#line 2 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\Pages\CustomerInfo.razor"
 using MudBlazorApp.Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/customer")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class CustomerInfo : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -104,67 +104,6 @@ using MudBlazorApp.Data;
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 65 "C:\Users\hossain\source\repos\MudBlazorApp\MudBlazorApp\Pages\CustomerInfo.razor"
-           
-
-    private bool hover = true;
-    private bool dense = true;
-
-    private string searchstring = "";
-    private Customer customer = new Customer();
-    private List<Customer> customers = new List<Customer>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        GetAllCustomer();
-    }
-
-    private List<Customer> GetAllCustomer()
-    {
-        customers = customerService.GetCustomers();
-        return customers;
-    }
-
-    private bool Search(Customer customer)
-    {
-        if (customer.FirstName != null && customer.LastName != null && customer.PhoneNumber != null &&
-            (customer.FirstName.Contains(searchstring, StringComparison.OrdinalIgnoreCase)) ||
-            (customer.FirstName.Contains(searchstring, StringComparison.OrdinalIgnoreCase)) ||
-            (customer.FirstName.Contains(searchstring, StringComparison.OrdinalIgnoreCase)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private void Save()
-    {
-        customerService.SaveCustomer(customer);
-
-        customer = new Customer();
-        GetAllCustomer();
-    }
-
-    private void Edit(int Id)
-    {
-        customer = customers.FirstOrDefault(c => c.Id == Id);
-    }
-
-    private void Delete(int Id)
-    {
-        customerService.DeleteCustomer(Id);
-        GetAllCustomer();
-    }
-
-    private void OpenDialog()
-    {
-        DialogService.Show<Customer_PopUp>("Customer Add / Update");
-    }
-
-#line default
-#line hidden
-#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IDialogService DialogService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MudBlazor.ISnackbar snackbar { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ICustomerService customerService { get; set; }

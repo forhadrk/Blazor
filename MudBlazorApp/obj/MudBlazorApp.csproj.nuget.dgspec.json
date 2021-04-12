@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hossain\\source\\repos\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj": {}
+    "D:\\Projects\\GIT\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hossain\\source\\repos\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj": {
+    "D:\\Projects\\GIT\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hossain\\source\\repos\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj",
+        "projectUniqueName": "D:\\Projects\\GIT\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj",
         "projectName": "MudBlazorApp",
-        "projectPath": "C:\\Users\\hossain\\source\\repos\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj",
-        "packagesPath": "C:\\Users\\hossain\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hossain\\source\\repos\\MudBlazorApp\\MudBlazorApp\\obj\\",
+        "projectPath": "D:\\Projects\\GIT\\MudBlazorApp\\MudBlazorApp\\MudBlazorApp.csproj",
+        "packagesPath": "C:\\Users\\forha\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\GIT\\MudBlazorApp\\MudBlazorApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\hossain\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\forha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -80,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
