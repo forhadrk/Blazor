@@ -104,7 +104,7 @@ using MudBlazorApp.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 71 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\Pages\Customer_PopUp.razor"
+#line 73 "D:\Projects\GIT\MudBlazorApp\MudBlazorApp\Pages\Customer_PopUp.razor"
        
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     private Customer customer = new Customer();
@@ -115,23 +115,46 @@ using MudBlazorApp.Data;
     private bool visible;
 
     private string searchstring = "";
+    private string ModalLabelName = "";
+    private string ButtonLabel = "";
 
     void Submit() => visible = false;
     void Cancel() => visible = false;
-    private void OpenDialog() => visible = true;
+    private void OpenDialog()
+    {
+        visible = true;
+        ModalLabelName = "Save";
+        ButtonLabel = "Save Customer";
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        GetAllCustomer();
+        try
+        {
+            GetAllCustomer();
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error Occured..!", Severity.Error);
+        }
+
     }
 
     private void Save()
     {
-        customerService.SaveCustomer(customer);
+        try
+        {
+            customerService.SaveCustomer(customer);
+            Snackbar.Add("Data Process Successfully..!", Severity.Success);
+            customer = new Customer();
+            visible = false;
+            GetAllCustomer();
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Data Process Failed..!", Severity.Error);
+        }
 
-        customer = new Customer();
-        visible = false;
-        GetAllCustomer();
     }
 
     private List<Customer> GetAllCustomer()
@@ -154,19 +177,43 @@ using MudBlazorApp.Data;
 
     private void Edit(int Id)
     {
-        customer = customers.FirstOrDefault(c => c.Id == Id);
-        visible = true;
+        try
+        {
+            customer = customers.FirstOrDefault(c => c.Id == Id);
+            ModalLabelName = "Update";
+            ButtonLabel = "Update Customer";
+            visible = true;
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error Occured..!", Severity.Error);
+        }
     }
 
-    private void Delete(int Id)
+    async Task Delete(int Id)
     {
-        customerService.DeleteCustomer(Id);
-        GetAllCustomer();
+        try
+        {
+            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure to delete this row?");
+            if (confirmed)
+            {
+                customerService.DeleteCustomer(Id);
+                Snackbar.Add("Data Deleted Successfully..!", Severity.Success);
+                GetAllCustomer();
+            }
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Data Deleted Failed..!", Severity.Error);
+        }
+
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ISnackbar Snackbar { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JsRuntime { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IDialogService DialogService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MudBlazor.ISnackbar snackbar { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private ICustomerService customerService { get; set; }

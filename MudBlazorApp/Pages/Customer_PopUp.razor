@@ -3,9 +3,11 @@
 @inject ICustomerService customerService
 @inject MudBlazor.ISnackbar snackbar
 @inject IDialogService DialogService
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
 
 <MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
-    <span class="oi oi-plus-circle"></span> Add New Customer
+    Add New Customer
 </MudButton>
 
 <MudTable Elevation="10" Items="GetAllCustomer()" Filter="new Func<Customer, bool>(Search)" @bind-customer="customer" Hover="@hover" Dense="@dense">
@@ -16,9 +18,9 @@
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Id</MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x=>x.FirstName)" InitialDirection="SortDirection.Ascending">First Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x=>x.LastName)">Last Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x=>x.PhoneNumber)">Phone Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x => x.FirstName)" InitialDirection="SortDirection.Ascending">First Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x => x.LastName)">Last Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Customer, object>(x => x.PhoneNumber)">Phone Number</MudTableSortLabel></MudTh>
         <MudTh>Action</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -27,12 +29,12 @@
         <MudTd DataLabel="LastName">@context.LastName</MudTd>
         <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
         <MudTd DataLabel="">
-            <MudFab @onclick="@(()=> Edit(context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
-            <MudFab @onclick="@(()=> Delete(context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+            <MudFab @onclick="@(() => Edit(context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+            <MudFab @onclick="@(() => Delete(context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
         </MudTd>
     </RowTemplate>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new int[] { 5,10,20,50,100}" />
+        <MudTablePager PageSizeOptions="new int[] { 5, 10, 20, 50, 100 }" />
     </PagerContent>
 </MudTable>
 <MudDialog @bind-IsVisible="visible">
@@ -43,7 +45,7 @@
                     <MudCardHeader>
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
-                                Add / Edit Customer
+                                @ModalLabelName
                             </MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
@@ -53,7 +55,7 @@
                         <MudTextField @bind-Value="customer.PhoneNumber" Label="Phone Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
                         <br />
                         <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@Save">
-                            Save Customer
+                            @ButtonLabel
                         </MudButton>
                     </MudCardContent>
                 </MudItem>
@@ -78,23 +80,46 @@
     private bool visible;
 
     private string searchstring = "";
+    private string ModalLabelName = "";
+    private string ButtonLabel = "";
 
     void Submit() => visible = false;
     void Cancel() => visible = false;
-    private void OpenDialog() => visible = true;
+    private void OpenDialog()
+    {
+        visible = true;
+        ModalLabelName = "Save";
+        ButtonLabel = "Save Customer";
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        GetAllCustomer();
+        try
+        {
+            GetAllCustomer();
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error Occured..!", Severity.Error);
+        }
+
     }
 
     private void Save()
     {
-        customerService.SaveCustomer(customer);
+        try
+        {
+            customerService.SaveCustomer(customer);
+            Snackbar.Add("Data Process Successfully..!", Severity.Success);
+            customer = new Customer();
+            visible = false;
+            GetAllCustomer();
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Data Process Failed..!", Severity.Error);
+        }
 
-        customer = new Customer();
-        visible = false;
-        GetAllCustomer();
     }
 
     private List<Customer> GetAllCustomer()
@@ -117,13 +142,35 @@
 
     private void Edit(int Id)
     {
-        customer = customers.FirstOrDefault(c => c.Id == Id);
-        visible = true;
+        try
+        {
+            customer = customers.FirstOrDefault(c => c.Id == Id);
+            ModalLabelName = "Update";
+            ButtonLabel = "Update Customer";
+            visible = true;
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error Occured..!", Severity.Error);
+        }
     }
 
-    private void Delete(int Id)
+    async Task Delete(int Id)
     {
-        customerService.DeleteCustomer(Id);
-        GetAllCustomer();
+        try
+        {
+            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure to delete this row?");
+            if (confirmed)
+            {
+                customerService.DeleteCustomer(Id);
+                Snackbar.Add("Data Deleted Successfully..!", Severity.Success);
+                GetAllCustomer();
+            }
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Data Deleted Failed..!", Severity.Error);
+        }
+
     }
 }

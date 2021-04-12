@@ -303,3 +303,4 @@ D:\Projects\GIT\MudBlazorApp\MudBlazorApp\obj\Debug\net5.0\MudBlazorApp.dll
 D:\Projects\GIT\MudBlazorApp\MudBlazorApp\obj\Debug\net5.0\ref\MudBlazorApp.dll
 D:\Projects\GIT\MudBlazorApp\MudBlazorApp\obj\Debug\net5.0\MudBlazorApp.pdb
 D:\Projects\GIT\MudBlazorApp\MudBlazorApp\obj\Debug\net5.0\MudBlazorApp.genruntimeconfig.cache
+D:\Projects\GIT\MudBlazorApp\MudBlazorApp\obj\Debug\net5.0\MudBlazorApp.csprojAssemblyReference.cache
